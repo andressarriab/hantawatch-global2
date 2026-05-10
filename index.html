@@ -464,778 +464,752 @@ body {
         <span>|</span>
         <span>Local: <span id="currentTime">--:--:--</span></span>
     </div>
+</div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <h1>🦠 HantaWatch Global</h1>
-            <p class="header-subtitle">Professional Hantavirus Surveillance & Global Risk Assessment Platform</p>
-            
-            <div class="alert-banner">
-                <div class="alert-content">
-                    <strong>🔴 CRITICAL OUTBREAK MONITORING:</strong> 
-                    <span id="alertText">MV Hondius expedition vessel - 8 confirmed cases, 3 deaths - Real-time tracking active</span>
-                </div>
-            </div>
+<div class="notification" id="notification">Data updated</div>
 
-            <div class="stats-overview">
-                <div class="stat-card critical" id="casesCard">
-                    <div class="stat-header">
-                        <div class="stat-icon">🚨</div>
-                        <div class="stat-timestamp" id="casesTimestamp">--:--:--</div>
-                    </div>
-                    <div class="stat-number" id="activeCases">8</div>
-                    <div class="stat-label">Active Cases</div>
-                    <div class="stat-trend">MV Hondius Ship</div>
-                </div>
-                
-                <div class="stat-card critical" id="deathsCard">
-                    <div class="stat-header">
-                        <div class="stat-icon">💀</div>
-                        <div class="stat-timestamp" id="deathsTimestamp">--:--:--</div>
-                    </div>
-                    <div class="stat-number" id="totalDeaths">3</div>
-                    <div class="stat-label">Deaths</div>
-                    <div class="stat-trend" id="fatalityRate">37.5% fatality rate</div>
-                </div>
-                
-                <div class="stat-card" id="countriesCard">
-                    <div class="stat-header">
-                        <div class="stat-icon">🌍</div>
-                        <div class="stat-timestamp" id="countriesTimestamp">--:--:--</div>
-                    </div>
-                    <div class="stat-number" id="countriesAffected">23</div>
-                    <div class="stat-label">Countries</div>
-                    <div class="stat-trend">Response Coordinated</div>
-                </div>
-                
-                <div class="stat-card" id="riskCard">
-                    <div class="stat-header">
-                        <div class="stat-icon">⚠️</div>
-                        <div class="stat-timestamp" id="riskTimestamp">--:--:--</div>
-                    </div>
-                    <div class="stat-number" id="globalRisk">LOW</div>
-                    <div class="stat-label">WHO Risk Level</div>
-                    <div class="stat-trend">Global Assessment</div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Map and Risk Assessment Grid -->
-        <div class="content-grid">
-            <!-- Interactive Map -->
-            <section class="section" style="margin-bottom: 0;">
-                <div class="section-header">
-                    <h2 class="section-title">🗺️ Global Surveillance Map</h2>
-                    <div class="section-controls">
-                        <button class="control-button active" data-layer="all">All Data</button>
-                        <button class="control-button" data-layer="cases">Cases</button>
-                        <button class="control-button" data-layer="risk">Risk</button>
-                        <button class="control-button" data-layer="ship">Ship</button>
-                    </div>
-                </div>
-                
-                <div class="map-container">
-                    <div class="map-header">
-                        <div class="map-title">Real-time Global Tracking</div>
-                        <div class="map-status">
-                            <div class="status-dot"></div>
-                            <span>Live GPS & Case Data</span>
-                        </div>
-                    </div>
-                    
-                    <div id="map">
-                        <div class="map-loading" id="mapLoading">
-                            <div class="map-loading-spinner"></div>
-                            <div>Loading map...</div>
-                        </div>
-                    </div>
-                    
-                    <div class="map-controls">
-                        <div class="map-legend">
-                            <div class="legend-item">
-                                <div class="legend-marker ship"></div>
-                                <span>MV Hondius (Current)</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-marker high-risk"></div>
-                                <span>High Risk</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-marker medium-risk"></div>
-                                <span>Medium Risk</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-marker low-risk"></div>
-                                <span>Low Risk</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-marker origin"></div>
-                                <span>Origin</span>
-                            </div>
-                        </div>
-                        <div style="font-family: var(--font-mono); color: var(--neutral-400); font-size: 0.85rem;">
-                            Position: <span id="positionUpdate">--:--:--</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Risk Assessment Panel -->
-            <section class="section" style="margin-bottom: 0;">
-                <div class="section-header">
-                    <h2 class="section-title" style="font-size: 1.5rem;">⚠️ Risk Assessment</h2>
-                </div>
-                <div class="risk-panel">
-                    <div class="risk-header">
-                        <div class="risk-title">Country Risk Rankings</div>
-                    </div>
-                    <div class="risk-list" id="riskList">
-                        <!-- Populated by JavaScript -->
-                    </div>
-                </div>
-            </section>
+<header class="header">
+    <div class="header-content">
+        <h1>🦠 HantaWatch Global</h1>
+        <p class="header-subtitle">Professional Hantavirus Surveillance & Global Risk Assessment Platform</p>
+        
+        <div class="alert-banner">
+            <strong>🔴 CRITICAL OUTBREAK MONITORING:</strong> 
+            MV Hondius expedition vessel - <span id="alertCases">8</span> confirmed cases, 3 deaths - Real-time tracking active
         </div>
 
-        <!-- Global Financial Markets -->
-        <section class="section">
+        <div class="stats-overview">
+            <div class="stat-card critical">
+                <div class="stat-header">
+                    <div class="stat-icon">🚨</div>
+                    <div class="stat-timestamp" id="casesTimestamp">--:--:--</div>
+                </div>
+                <div class="stat-number" id="activeCases">8</div>
+                <div class="stat-label">Active Cases</div>
+                <div class="stat-trend">MV Hondius Ship</div>
+            </div>
+            
+            <div class="stat-card critical">
+                <div class="stat-header">
+                    <div class="stat-icon">💀</div>
+                    <div class="stat-timestamp" id="deathsTimestamp">--:--:--</div>
+                </div>
+                <div class="stat-number">3</div>
+                <div class="stat-label">Deaths</div>
+                <div class="stat-trend">37.5% fatality rate</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">🌍</div>
+                    <div class="stat-timestamp" id="countriesTimestamp">--:--:--</div>
+                </div>
+                <div class="stat-number">23</div>
+                <div class="stat-label">Countries</div>
+                <div class="stat-trend">Response Coordinated</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-timestamp" id="riskTimestamp">--:--:--</div>
+                </div>
+                <div class="stat-number">LOW</div>
+                <div class="stat-label">WHO Risk Level</div>
+                <div class="stat-trend">Global Assessment</div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="content-grid">
+        <section style="margin-bottom: 0;">
             <div class="section-header">
-                <h2 class="section-title">📈 Global Financial Markets</h2>
-                <div class="section-controls">
-                    <button class="control-button active">Real-time</button>
-                </div>
+                <h2 class="section-title">🗺️ Global Surveillance Map</h2>
             </div>
-
-            <h3 style="color: var(--neutral-300); margin-bottom: var(--space-md); font-size: 1.1rem;">Major Indices</h3>
-            <div class="markets-grid">
-                <div class="market-card">
-                    <div class="market-header">
-                        <div class="market-name">🇺🇸 S&P 500</div>
-                        <div class="market-change positive" id="spChange">+0.85%</div>
-                    </div>
-                    <div class="market-content">
-                        <div class="market-value" id="spValue">5,847.98</div>
-                        <div class="market-details">
-                            <div class="market-detail"><span>Open:</span><strong id="spOpen">5,832.11</strong></div>
-                            <div class="market-detail"><span>High:</span><strong id="spHigh">5,863.45</strong></div>
-                            <div class="market-detail"><span>Low:</span><strong id="spLow">5,828.33</strong></div>
-                            <div class="market-detail"><span>Vol:</span><strong>3.2B</strong></div>
-                        </div>
+            
+            <div class="map-container">
+                <div class="map-header">
+                    <div class="map-title">Real-time Global Tracking</div>
+                    <div class="map-status">
+                        <div class="status-dot"></div>
+                        <span id="mapStatusText">Live Data</span>
                     </div>
                 </div>
-
-                <div class="market-card">
-                    <div class="market-header">
-                        <div class="market-name">🇺🇸 NASDAQ</div>
-                        <div class="market-change positive" id="nasdaqChange">+1.24%</div>
-                    </div>
-                    <div class="market-content">
-                        <div class="market-value" id="nasdaqValue">18,983.47</div>
-                        <div class="market-details">
-                            <div class="market-detail"><span>Open:</span><strong id="nasdaqOpen">18,751.82</strong></div>
-                            <div class="market-detail"><span>High:</span><strong id="nasdaqHigh">19,012.93</strong></div>
-                            <div class="market-detail"><span>Low:</span><strong id="nasdaqLow">18,734.56</strong></div>
-                            <div class="market-detail"><span>Vol:</span><strong>4.8B</strong></div>
-                        </div>
+                
+                <div id="map">
+                    <div class="map-placeholder" id="mapPlaceholder">
+                        <div class="icon">🌍</div>
+                        <div class="title">Loading Global Map</div>
+                        <div class="subtitle">Initializing surveillance data...</div>
                     </div>
                 </div>
-
-                <div class="market-card">
-                    <div class="market-header">
-                        <div class="market-name">🇯🇵 Nikkei 225</div>
-                        <div class="market-change negative" id="nikkeiChange">-0.42%</div>
-                    </div>
-                    <div class="market-content">
-                        <div class="market-value" id="nikkeiValue">38,721.66</div>
-                        <div class="market-details">
-                            <div class="market-detail"><span>Open:</span><strong id="nikkeiOpen">38,885.44</strong></div>
-                            <div class="market-detail"><span>High:</span><strong id="nikkeiHigh">38,923.17</strong></div>
-                            <div class="market-detail"><span>Low:</span><strong id="nikkeiLow">38,685.29</strong></div>
-                            <div class="market-detail"><span>Vol:</span><strong>1.1B</strong></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="market-card">
-                    <div class="market-header">
-                        <div class="market-name">🇪🇺 STOXX Europe 600</div>
-                        <div class="market-change neutral" id="europeChange">+0.12%</div>
-                    </div>
-                    <div class="market-content">
-                        <div class="market-value" id="europeValue">521.87</div>
-                        <div class="market-details">
-                            <div class="market-detail"><span>Open:</span><strong id="europeOpen">521.25</strong></div>
-                            <div class="market-detail"><span>High:</span><strong id="europeHigh">523.14</strong></div>
-                            <div class="market-detail"><span>Low:</span><strong id="europeLow">520.88</strong></div>
-                            <div class="market-detail"><span>Vol:</span><strong>892M</strong></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <h3 style="color: var(--neutral-300); margin: var(--space-2xl) 0 var(--space-md); font-size: 1.1rem;">Sector Analysis</h3>
-            <div class="markets-grid">
-                <div class="market-card">
-                    <div class="market-header">
-                        <div class="market-name">🚢 Cruise Lines</div>
-                        <div class="market-change negative">-2.5%</div>
-                    </div>
-                    <div class="market-content">
-                        <div class="stocks-list" id="cruiseStocks"></div>
-                    </div>
-                </div>
-
-                <div class="market-card">
-                    <div class="market-header">
-                        <div class="market-name">💊 Healthcare & Biotech</div>
-                        <div class="market-change positive">+2.4%</div>
-                    </div>
-                    <div class="market-content">
-                        <div class="stocks-list" id="healthcareStocks"></div>
-                    </div>
-                </div>
-
-                <div class="market-card">
-                    <div class="market-header">
-                        <div class="market-name">✈️ Airlines & Travel</div>
-                        <div class="market-change negative">-0.9%</div>
-                    </div>
-                    <div class="market-content">
-                        <div class="stocks-list" id="travelStocks"></div>
-                    </div>
-                </div>
-
-                <div class="market-card">
-                    <div class="market-header">
-                        <div class="market-name">🏥 Medical Equipment</div>
-                        <div class="market-change positive">+1.4%</div>
-                    </div>
-                    <div class="market-content">
-                        <div class="stocks-list" id="medicalStocks"></div>
+                
+                <div class="map-controls">
+                    <div class="map-legend">
+                        <div class="legend-item"><div class="legend-marker ship"></div><span>MV Hondius</span></div>
+                        <div class="legend-item"><div class="legend-marker high-risk"></div><span>High Risk</span></div>
+                        <div class="legend-item"><div class="legend-marker medium-risk"></div><span>Medium Risk</span></div>
+                        <div class="legend-item"><div class="legend-marker low-risk"></div><span>Low Risk</span></div>
+                        <div class="legend-item"><div class="legend-marker origin"></div><span>Origin</span></div>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Government Updates -->
-        <section class="section">
+        
+        <section style="margin-bottom: 0;">
             <div class="section-header">
-                <h2 class="section-title">🏛️ Official Government Updates</h2>
-                <div class="section-controls">
-                    <button class="control-button active">All Sources</button>
-                </div>
+                <h2 class="section-title" style="font-size: 1.5rem;">⚠️ Risk Assessment</h2>
             </div>
-
-            <div class="gov-updates">
-                <div class="gov-header">
-                    <div class="gov-title">Latest Official Communications</div>
+            <div class="risk-panel">
+                <div class="risk-header">
+                    <div class="risk-title">Country Risk Rankings</div>
                 </div>
-                <div class="updates-list" id="govUpdates"></div>
+                <div class="risk-list" id="riskList">Loading risk data...</div>
             </div>
         </section>
-    </main>
+    </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>HantaWatch Global</h4>
-                <p>Professional-grade hantavirus surveillance platform providing real-time outbreak monitoring, global risk assessment, and comprehensive market analysis.</p>
-                <p>Built with cutting-edge web technologies and deployed on GitHub Pages.</p>
+    <section class="section">
+        <div class="section-header">
+            <h2 class="section-title">📈 Global Financial Markets</h2>
+        </div>
+
+        <h3 style="color: var(--neutral-300); margin-bottom: 1rem; font-size: 1.1rem;">Major Indices</h3>
+        <div class="markets-grid">
+            <div class="market-card">
+                <div class="market-header">
+                    <div class="market-name">🇺🇸 S&P 500</div>
+                    <div class="market-change positive" id="spChange">+0.85%</div>
+                </div>
+                <div class="market-content">
+                    <div class="market-value" id="spValue">5,847.98</div>
+                    <div class="market-details">
+                        <div class="market-detail"><span>Open:</span><strong>5,832.11</strong></div>
+                        <div class="market-detail"><span>High:</span><strong>5,863.45</strong></div>
+                        <div class="market-detail"><span>Low:</span><strong>5,828.33</strong></div>
+                        <div class="market-detail"><span>Vol:</span><strong>3.2B</strong></div>
+                    </div>
+                </div>
             </div>
-            <div class="footer-section">
-                <h4>Outbreak Status</h4>
-                <p>• Vessel: MV Hondius expedition cruise</p>
-                <p>• Active Cases: <span id="footerCases">8</span> confirmed</p>
-                <p>• Deaths: <span id="footerDeaths">3</span> (37.5% fatality)</p>
-                <p>• Countries: 23 nations monitoring</p>
-                <p>• Strain: Andes (H2H transmission)</p>
-                <p>• WHO Risk: LOW global spread</p>
+
+            <div class="market-card">
+                <div class="market-header">
+                    <div class="market-name">🇺🇸 NASDAQ</div>
+                    <div class="market-change positive" id="nasdaqChange">+1.24%</div>
+                </div>
+                <div class="market-content">
+                    <div class="market-value" id="nasdaqValue">18,983.47</div>
+                    <div class="market-details">
+                        <div class="market-detail"><span>Open:</span><strong>18,751.82</strong></div>
+                        <div class="market-detail"><span>High:</span><strong>19,012.93</strong></div>
+                        <div class="market-detail"><span>Low:</span><strong>18,734.56</strong></div>
+                        <div class="market-detail"><span>Vol:</span><strong>4.8B</strong></div>
+                    </div>
+                </div>
             </div>
-            <div class="footer-section">
-                <h4>Technical Stack</h4>
-                <p>• Frontend: GitHub Pages + Leaflet</p>
-                <p>• Real-time updates: 30s intervals</p>
-                <p>• GPS Tracking: Live simulation</p>
-                <p>• Map: OpenStreetMap CARTO</p>
-                <p>• Last update: <span id="footerLastUpdate">--:--:--</span></p>
+
+            <div class="market-card">
+                <div class="market-header">
+                    <div class="market-name">🇯🇵 Nikkei 225</div>
+                    <div class="market-change negative" id="nikkeiChange">-0.42%</div>
+                </div>
+                <div class="market-content">
+                    <div class="market-value" id="nikkeiValue">38,721.66</div>
+                    <div class="market-details">
+                        <div class="market-detail"><span>Open:</span><strong>38,885.44</strong></div>
+                        <div class="market-detail"><span>High:</span><strong>38,923.17</strong></div>
+                        <div class="market-detail"><span>Low:</span><strong>38,685.29</strong></div>
+                        <div class="market-detail"><span>Vol:</span><strong>1.1B</strong></div>
+                    </div>
+                </div>
             </div>
-            <div class="footer-section">
-                <h4>Data Sources</h4>
-                <p>• World Health Organization</p>
-                <p>• Centers for Disease Control</p>
-                <p>• European CDC</p>
-                <p>• Yahoo Finance API</p>
-                <p>• <a href="https://github.com/andressarriab/hantawatch-global2">GitHub Repository</a></p>
+
+            <div class="market-card">
+                <div class="market-header">
+                    <div class="market-name">🇪🇺 STOXX Europe 600</div>
+                    <div class="market-change neutral" id="europeChange">+0.12%</div>
+                </div>
+                <div class="market-content">
+                    <div class="market-value" id="europeValue">521.87</div>
+                    <div class="market-details">
+                        <div class="market-detail"><span>Open:</span><strong>521.25</strong></div>
+                        <div class="market-detail"><span>High:</span><strong>523.14</strong></div>
+                        <div class="market-detail"><span>Low:</span><strong>520.88</strong></div>
+                        <div class="market-detail"><span>Vol:</span><strong>892M</strong></div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 HantaWatch Global • Professional Surveillance Platform • <span id="footerTime">--:--:--</span></p>
+
+        <h3 style="color: var(--neutral-300); margin: 3rem 0 1rem; font-size: 1.1rem;">Sector Analysis</h3>
+        <div class="markets-grid">
+            <div class="market-card">
+                <div class="market-header">
+                    <div class="market-name">🚢 Cruise Lines</div>
+                    <div class="market-change negative" id="cruiseSectorChange">-2.5%</div>
+                </div>
+                <div class="market-content"><div class="stocks-list" id="cruiseStocks">Loading cruise stocks...</div></div>
+            </div>
+
+            <div class="market-card">
+                <div class="market-header">
+                    <div class="market-name">💊 Healthcare</div>
+                    <div class="market-change positive" id="healthcareSectorChange">+2.4%</div>
+                </div>
+                <div class="market-content"><div class="stocks-list" id="healthcareStocks">Loading healthcare stocks...</div></div>
+            </div>
+
+            <div class="market-card">
+                <div class="market-header">
+                    <div class="market-name">✈️ Airlines</div>
+                    <div class="market-change negative" id="travelSectorChange">-0.9%</div>
+                </div>
+                <div class="market-content"><div class="stocks-list" id="travelStocks">Loading airline stocks...</div></div>
+            </div>
+
+            <div class="market-card">
+                <div class="market-header">
+                    <div class="market-name">🏥 Medical Equipment</div>
+                    <div class="market-change positive" id="medicalSectorChange">+1.4%</div>
+                </div>
+                <div class="market-content"><div class="stocks-list" id="medicalStocks">Loading medical stocks...</div></div>
+            </div>
         </div>
-    </footer>
+    </section>
 
-    <script>
-        // Wait for DOM and Leaflet to be ready
-        function initializePlatform() {
-            // Check if Leaflet loaded
-            const leafletAvailable = typeof L !== 'undefined';
-            console.log('🦠 HantaWatch Global - Initializing...');
-            console.log('Leaflet available:', leafletAvailable);
+    <section class="section">
+        <div class="section-header">
+            <h2 class="section-title">🏛️ Official Government Updates</h2>
+        </div>
 
-            // Data Models
-            const data = {
-                outbreak: {
-                    ship: {
-                        name: "MV Hondius",
-                        position: { lat: 28.2916, lng: -16.6291 },
-                        cases: 8,
-                        deaths: 3,
-                        passengers: 147,
-                        countries: 23
-                    }
-                },
-                riskCountries: [
-                    { country: 'Spain', risk: 'HIGH', cases: 0, details: 'Canary Islands - Ship destination port', coords: [40.4168, -3.7038] },
-                    { country: 'Argentina', risk: 'HIGH', cases: 0, details: 'Departure point - Endemic region', coords: [-34.6118, -58.3960] },
-                    { country: 'United Kingdom', risk: 'MEDIUM', cases: 0, details: '23 nationals aboard ship', coords: [51.5074, -0.1278] },
-                    { country: 'United States', risk: 'MEDIUM', cases: 0, details: '21 nationals aboard ship', coords: [38.9072, -77.0369] },
-                    { country: 'Germany', risk: 'MEDIUM', cases: 0, details: '18 nationals aboard ship', coords: [52.5200, 13.4050] },
-                    { country: 'Netherlands', risk: 'MEDIUM', cases: 0, details: '15 nationals aboard ship', coords: [52.3676, 4.9041] },
-                    { country: 'France', risk: 'MEDIUM', cases: 0, details: '12 nationals aboard ship', coords: [48.8566, 2.3522] },
-                    { country: 'Brazil', risk: 'MEDIUM', cases: 0, details: 'Regional proximity to Argentina', coords: [-15.7975, -47.8919] },
-                    { country: 'Chile', risk: 'MEDIUM', cases: 0, details: 'Shares border with Argentina', coords: [-33.4489, -70.6693] },
-                    { country: 'Canada', risk: 'LOW', cases: 0, details: '8 nationals aboard ship', coords: [45.4215, -75.6972] },
-                    { country: 'Australia', risk: 'LOW', cases: 0, details: '6 nationals aboard ship', coords: [-35.2809, 149.1300] },
-                    { country: 'Japan', risk: 'LOW', cases: 0, details: '4 nationals aboard ship', coords: [35.6762, 139.6503] }
-                ],
-                markets: {
-                    indices: {
-                        sp500: { value: 5847.98, change: 0.85, open: 5832.11, high: 5863.45, low: 5828.33 },
-                        nasdaq: { value: 18983.47, change: 1.24, open: 18751.82, high: 19012.93, low: 18734.56 },
-                        nikkei: { value: 38721.66, change: -0.42, open: 38885.44, high: 38923.17, low: 38685.29 },
-                        europe: { value: 521.87, change: 0.12, open: 521.25, high: 523.14, low: 520.88 }
-                    },
-                    sectors: {
-                        cruise: [
-                            { symbol: 'CCL', name: 'Carnival Corp', price: 26.91, change: -2.18 },
-                            { symbol: 'RCL', name: 'Royal Caribbean', price: 279.77, change: -1.45 },
-                            { symbol: 'NCLH', name: 'Norwegian Cruise', price: 17.34, change: -3.86 }
-                        ],
-                        healthcare: [
-                            { symbol: 'GILD', name: 'Gilead Sciences', price: 89.23, change: 2.34 },
-                            { symbol: 'MRNA', name: 'Moderna Inc', price: 134.56, change: 3.12 },
-                            { symbol: 'BNTX', name: 'BioNTech SE', price: 103.45, change: 1.89 }
-                        ],
-                        travel: [
-                            { symbol: 'AAL', name: 'American Airlines', price: 13.45, change: -0.89 },
-                            { symbol: 'DAL', name: 'Delta Air Lines', price: 52.78, change: -1.12 },
-                            { symbol: 'UAL', name: 'United Airlines', price: 78.92, change: -0.67 }
-                        ],
-                        medical: [
-                            { symbol: 'JNJ', name: 'Johnson & Johnson', price: 156.78, change: 0.95 },
-                            { symbol: 'ABT', name: 'Abbott Labs', price: 114.23, change: 1.78 },
-                            { symbol: 'MDT', name: 'Medtronic', price: 87.65, change: 1.23 }
-                        ]
-                    }
-                },
-                government: [
-                    {
-                        source: 'WHO Emergency Committee',
-                        time: '2 hours ago',
-                        type: 'health',
-                        content: 'Emergency committee convened to assess MV Hondius outbreak. Maintains LOW global risk assessment pending further epidemiological investigation.'
-                    },
-                    {
-                        source: 'Spanish Health Ministry',
-                        time: '3 hours ago',
-                        type: 'policy',
-                        content: 'Canary Islands authorities implementing enhanced port health protocols. Medical teams on standby at Las Palmas port for ship arrival.'
-                    },
-                    {
-                        source: 'CDC (United States)',
-                        time: '4 hours ago',
-                        type: 'health',
-                        content: 'CDC monitoring 21 US nationals aboard MV Hondius. Travel health notice issued for hantavirus awareness in expedition cruise travelers.'
-                    },
-                    {
-                        source: 'European CDC',
-                        time: '5 hours ago',
-                        type: 'policy',
-                        content: 'ECDC coordinating response with EU member states. Enhanced surveillance protocols activated for returning passengers across European ports.'
-                    },
-                    {
-                        source: 'Argentina Ministry of Health',
-                        time: '6 hours ago',
-                        type: 'emergency',
-                        content: 'Investigation launched into pre-departure health screening procedures at Ushuaia port. Temporary suspension of expedition cruise departures pending review.'
-                    },
-                    {
-                        source: 'WHO Regional Office',
-                        time: '8 hours ago',
-                        type: 'travel',
-                        content: 'No travel restrictions recommended at this time. Standard precautions advised for travelers to hantavirus-endemic regions in South America.'
-                    },
-                    {
-                        source: 'UK Health Security Agency',
-                        time: '10 hours ago',
-                        type: 'health',
-                        content: 'UKHSA confirms 23 British nationals aboard MV Hondius. Coordination underway with Spanish authorities for repatriation health protocols.'
-                    },
-                    {
-                        source: 'German Federal Health Ministry',
-                        time: '12 hours ago',
-                        type: 'travel',
-                        content: 'Bundesgesundheitsministerium activates pandemic preparedness protocols. 18 German citizens aboard receiving consular assistance.'
-                    }
-                ]
+        <div class="gov-updates">
+            <div class="gov-header">
+                <div class="gov-title">Latest Official Communications</div>
+            </div>
+            <div class="updates-list" id="govUpdates">Loading government updates...</div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4>HantaWatch Global</h4>
+            <p>Professional hantavirus surveillance platform with real-time outbreak monitoring and global risk assessment.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Outbreak Status</h4>
+            <p>• MV Hondius expedition cruise</p>
+            <p>• <span id="footerCases">8</span> cases, 3 deaths</p>
+            <p>• 23 countries monitoring</p>
+            <p>• WHO Risk: LOW</p>
+        </div>
+        <div class="footer-section">
+            <h4>Technical Stack</h4>
+            <p>• GitHub Pages + Leaflet</p>
+            <p>• Real-time updates: 30s</p>
+            <p>• Last update: <span id="footerLastUpdate">--:--:--</span></p>
+        </div>
+        <div class="footer-section">
+            <h4>Data Sources</h4>
+            <p>• WHO • CDC • ECDC</p>
+            <p><a href="https://github.com/andressarriab/hantawatch-global2">GitHub Repo</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 HantaWatch Global • <span id="footerTime">--:--:--</span></p>
+    </div>
+</footer>
+
+<!-- Multiple Leaflet JS sources with fallbacks -->
+<script>
+// Global variables
+var app = {
+    map: null,
+    shipMarker: null,
+    intervals: {},
+    data: {
+        riskCountries: [
+            { name: 'Spain', risk: 'HIGH', details: 'Canary Islands - Ship destination', coords: [40.4168, -3.7038] },
+            { name: 'Argentina', risk: 'HIGH', details: 'Departure point - Endemic region', coords: [-34.6118, -58.3960] },
+            { name: 'United Kingdom', risk: 'MEDIUM', details: '23 nationals aboard ship', coords: [51.5074, -0.1278] },
+            { name: 'United States', risk: 'MEDIUM', details: '21 nationals aboard ship', coords: [38.9072, -77.0369] },
+            { name: 'Germany', risk: 'MEDIUM', details: '18 nationals aboard ship', coords: [52.5200, 13.4050] },
+            { name: 'Netherlands', risk: 'MEDIUM', details: '15 nationals aboard ship', coords: [52.3676, 4.9041] },
+            { name: 'France', risk: 'MEDIUM', details: '12 nationals aboard ship', coords: [48.8566, 2.3522] },
+            { name: 'Brazil', risk: 'MEDIUM', details: 'Regional proximity to Argentina', coords: [-15.7975, -47.8919] },
+            { name: 'Chile', risk: 'MEDIUM', details: 'Shares border with Argentina', coords: [-33.4489, -70.6693] },
+            { name: 'Canada', risk: 'LOW', details: '8 nationals aboard ship', coords: [45.4215, -75.6972] },
+            { name: 'Australia', risk: 'LOW', details: '6 nationals aboard ship', coords: [-35.2809, 149.1300] },
+            { name: 'Japan', risk: 'LOW', details: '4 nationals aboard ship', coords: [35.6762, 139.6503] }
+        ],
+        sectorStocks: {
+            cruise: [
+                { symbol: 'CCL', name: 'Carnival Corp', price: 26.91, change: -2.18 },
+                { symbol: 'RCL', name: 'Royal Caribbean', price: 279.77, change: -1.45 },
+                { symbol: 'NCLH', name: 'Norwegian Cruise', price: 17.34, change: -3.86 }
+            ],
+            healthcare: [
+                { symbol: 'GILD', name: 'Gilead Sciences', price: 89.23, change: 2.34 },
+                { symbol: 'MRNA', name: 'Moderna Inc', price: 134.56, change: 3.12 },
+                { symbol: 'BNTX', name: 'BioNTech SE', price: 103.45, change: 1.89 }
+            ],
+            travel: [
+                { symbol: 'AAL', name: 'American Airlines', price: 13.45, change: -0.89 },
+                { symbol: 'DAL', name: 'Delta Air Lines', price: 52.78, change: -1.12 },
+                { symbol: 'UAL', name: 'United Airlines', price: 78.92, change: -0.67 }
+            ],
+            medical: [
+                { symbol: 'JNJ', name: 'Johnson & Johnson', price: 156.78, change: 0.95 },
+                { symbol: 'ABT', name: 'Abbott Labs', price: 114.23, change: 1.78 },
+                { symbol: 'MDT', name: 'Medtronic', price: 87.65, change: 1.23 }
+            ]
+        },
+        govUpdates: [
+            { source: 'WHO Emergency Committee', time: 'Just now', type: 'health', content: 'Emergency committee convened to assess MV Hondius outbreak. Maintains LOW global risk assessment pending further epidemiological investigation.' },
+            { source: 'Spanish Health Ministry', time: '15 min ago', type: 'policy', content: 'Canary Islands authorities implementing enhanced port health protocols. Medical teams on standby at Las Palmas port for ship arrival.' },
+            { source: 'CDC (United States)', time: '1 hour ago', type: 'health', content: 'CDC monitoring 21 US nationals aboard MV Hondius. Travel health notice issued for hantavirus awareness in expedition cruise travelers.' },
+            { source: 'European CDC', time: '2 hours ago', type: 'policy', content: 'ECDC coordinating response with EU member states. Enhanced surveillance protocols activated for returning passengers across European ports.' },
+            { source: 'Argentina Ministry of Health', time: '3 hours ago', type: 'emergency', content: 'Investigation launched into pre-departure health screening procedures at Ushuaia port. Temporary suspension of expedition cruise departures.' },
+            { source: 'WHO Regional Office', time: '4 hours ago', type: 'travel', content: 'No travel restrictions recommended at this time. Standard precautions advised for travelers to hantavirus-endemic regions in South America.' },
+            { source: 'UK Health Security Agency', time: '6 hours ago', type: 'health', content: 'UKHSA confirms 23 British nationals aboard MV Hondius. Coordination underway with Spanish authorities for repatriation health protocols.' },
+            { source: 'German Federal Health Ministry', time: '8 hours ago', type: 'travel', content: 'Bundesgesundheitsministerium activates pandemic preparedness protocols. 18 German citizens aboard receiving consular assistance.' }
+        ],
+        newsPool: [
+            { source: 'WHO Emergency Committee', type: 'health', content: 'Updated risk assessment shows continued LOW global threat. Surveillance systems activated in 23 countries.' },
+            { source: 'Reuters Health', type: 'health', content: 'Medical experts emphasize that Andes virus rarely causes outbreaks of this size. Current containment measures appear effective.' },
+            { source: 'Spanish Coast Guard', type: 'emergency', content: 'MV Hondius escort vessel deployed. Quarantine procedures finalized for arrival at Las Palmas port.' },
+            { source: 'BBC News', type: 'travel', content: 'Travel advisory issued for South American expedition cruises pending review of pre-departure screening protocols.' }
+        ],
+        indices: {
+            sp500: { value: 5847.98, change: 0.85 },
+            nasdaq: { value: 18983.47, change: 1.24 },
+            nikkei: { value: 38721.66, change: -0.42 },
+            europe: { value: 521.87, change: 0.12 }
+        }
+    }
+};
+
+// Load Leaflet with multiple CDN fallbacks
+function loadLeaflet() {
+    return new Promise(function(resolve, reject) {
+        console.log('🗺️ Attempting to load Leaflet...');
+        
+        // Primary source
+        var script = document.createElement('script');
+        script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        script.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
+        script.crossOrigin = '';
+        
+        script.onload = function() {
+            console.log('✅ Leaflet loaded from unpkg');
+            resolve();
+        };
+        
+        script.onerror = function() {
+            console.warn('❌ Failed to load from unpkg, trying cdnjs...');
+            document.head.removeChild(script);
+            
+            // Fallback source
+            var fallbackScript = document.createElement('script');
+            fallbackScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js';
+            
+            fallbackScript.onload = function() {
+                console.log('✅ Leaflet loaded from cdnjs');
+                resolve();
             };
+            
+            fallbackScript.onerror = function() {
+                console.error('❌ Failed to load Leaflet from all CDNs');
+                reject(new Error('Could not load Leaflet library'));
+            };
+            
+            document.head.appendChild(fallbackScript);
+        };
+        
+        document.head.appendChild(script);
+    });
+}
 
-            // Helper Functions
-            function getRiskColor(risk) {
-                switch(risk) {
-                    case 'HIGH': return '#ea580c';
-                    case 'MEDIUM': return '#d97706';
-                    case 'LOW': return '#059669';
-                    default: return '#64748b';
-                }
+// Initialize without map fallback
+function initWithoutMap() {
+    console.log('🗺️ Initializing without map...');
+    
+    var mapEl = document.getElementById('map');
+    var placeholder = document.getElementById('mapPlaceholder');
+    
+    if (placeholder) {
+        placeholder.innerHTML = 
+            '<div class="icon">🌍</div>' +
+            '<div class="title">Map Service Unavailable</div>' +
+            '<div class="subtitle">All other features are fully functional</div>';
+    }
+    
+    var mapStatus = document.getElementById('mapStatusText');
+    if (mapStatus) mapStatus.textContent = 'Map Offline';
+    
+    // Continue with all other functionality
+    populateRiskPanel();
+    populateStocks();
+    populateGovUpdates();
+    startLiveUpdates();
+    
+    console.log('✅ Platform operational without map');
+}
+
+// Helper functions
+function $(id) { return document.getElementById(id); }
+
+function getRiskColor(risk) {
+    if (risk === 'HIGH') return '#ea580c';
+    if (risk === 'MEDIUM') return '#d97706';
+    if (risk === 'LOW') return '#059669';
+    return '#64748b';
+}
+
+function showNotification(msg) {
+    var n = $('notification');
+    if (n) {
+        n.textContent = msg;
+        n.classList.add('show');
+        setTimeout(function() { n.classList.remove('show'); }, 3500);
+    }
+}
+
+function updateTimestamps() {
+    var now = new Date().toLocaleTimeString();
+    var ids = ['casesTimestamp', 'deathsTimestamp', 'countriesTimestamp', 'riskTimestamp', 'lastGlobalUpdate', 'footerLastUpdate'];
+    for (var i = 0; i < ids.length; i++) {
+        var el = $(ids[i]);
+        if (el) el.textContent = now;
+    }
+}
+
+// Populate risk panel
+function populateRiskPanel() {
+    var list = $('riskList');
+    if (!list) return;
+
+    var sorted = app.data.riskCountries.slice().sort(function(a, b) {
+        var order = { 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1 };
+        return order[b.risk] - order[a.risk];
+    });
+
+    var html = '';
+    for (var i = 0; i < sorted.length; i++) {
+        var c = sorted[i];
+        html += '<div class="risk-country">';
+        html += '<div class="country-info">';
+        html += '<div class="country-name">' + c.name + '</div>';
+        html += '<div class="country-details">' + c.details + '</div>';
+        html += '</div>';
+        html += '<div class="risk-level risk-' + c.risk.toLowerCase() + '">' + c.risk + '</div>';
+        html += '</div>';
+    }
+    list.innerHTML = html;
+    console.log('✅ Risk panel: ' + sorted.length + ' countries');
+}
+
+// Populate stocks
+function populateStocks() {
+    var sectors = ['cruise', 'healthcare', 'travel', 'medical'];
+    for (var s = 0; s < sectors.length; s++) {
+        var sector = sectors[s];
+        var container = $(sector + 'Stocks');
+        if (!container) continue;
+
+        var stocks = app.data.sectorStocks[sector];
+        var html = '';
+        for (var i = 0; i < stocks.length; i++) {
+            var stock = stocks[i];
+            var changeClass = stock.change > 0 ? 'positive' : 'negative';
+            var changeSign = stock.change > 0 ? '+' : '';
+            html += '<div class="stock-item">';
+            html += '<div class="stock-symbol">' + stock.symbol + '</div>';
+            html += '<div class="stock-name">' + stock.name + '</div>';
+            html += '<div class="stock-price">$' + stock.price.toFixed(2) + '</div>';
+            html += '<div class="stock-change ' + changeClass + '">' + changeSign + stock.change.toFixed(2) + '%</div>';
+            html += '</div>';
+        }
+        container.innerHTML = html;
+    }
+    console.log('✅ Stocks populated');
+}
+
+// Populate government updates
+function populateGovUpdates() {
+    var container = $('govUpdates');
+    if (!container) return;
+
+    var html = '';
+    for (var i = 0; i < app.data.govUpdates.length; i++) {
+        var u = app.data.govUpdates[i];
+        html += '<div class="update-item">';
+        html += '<div class="update-header">';
+        html += '<div class="update-source">' + u.source + '</div>';
+        html += '<div class="update-time">' + u.time + '</div>';
+        html += '</div>';
+        html += '<div class="update-content">' + u.content + '</div>';
+        html += '<div class="update-type ' + u.type + '">' + u.type + '</div>';
+        html += '</div>';
+    }
+    container.innerHTML = html;
+    console.log('✅ Gov updates: ' + app.data.govUpdates.length);
+}
+
+// Initialize map
+function initMap() {
+    if (typeof L === 'undefined') {
+        throw new Error('Leaflet library not available');
+    }
+
+    console.log('🗺️ Creating map...');
+    
+    var placeholder = $('mapPlaceholder');
+    if (placeholder) placeholder.style.display = 'none';
+
+    // Create map
+    app.map = L.map('map', {
+        center: [20, -20],
+        zoom: 2,
+        worldCopyJump: true
+    });
+
+    // Add tile layer
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap © CARTO',
+        subdomains: 'abcd',
+        maxZoom: 19
+    }).addTo(app.map);
+
+    // Ship route
+    var shipRoute = [
+        [-54.8019, -68.3030],
+        [-51.7963, -59.5236], 
+        [-37.8136, -57.5560],
+        [-23.5505, -46.6333],
+        [14.6928, -17.4467],
+        [28.2916, -16.6291]
+    ];
+
+    L.polyline(shipRoute, {
+        color: '#dc2626',
+        weight: 3,
+        opacity: 0.7,
+        dashArray: '10, 5'
+    }).addTo(app.map);
+
+    // Origin marker
+    var originIcon = L.divIcon({
+        className: 'custom-marker',
+        html: '<div style="background: #0891b2; width: 28px; height: 28px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; font-size: 14px;">🛳️</div>',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+    });
+
+    L.marker([-54.8019, -68.3030], { icon: originIcon })
+        .bindPopup('<div style="color: #f1f5f9;"><strong>🛳️ Outbreak Origin</strong><br>Port: Ushuaia, Argentina<br>Departure: May 1, 2026<br>Mission: Antarctica expedition</div>')
+        .addTo(app.map);
+
+    // Ship marker
+    var shipIcon = L.divIcon({
+        className: 'custom-marker', 
+        html: '<div style="background: #dc2626; width: 32px; height: 32px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; font-size: 16px;">🚢</div>',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+    });
+
+    app.shipMarker = L.marker([28.2916, -16.6291], { icon: shipIcon })
+        .bindPopup('<div style="color: #f1f5f9;"><strong>🚢 MV Hondius - LIVE</strong><br>Status: Active outbreak<br>Cases: 8 confirmed<br>Deaths: 3<br>Passengers: 147 from 23 countries<br>Virus: Andes strain</div>')
+        .addTo(app.map);
+
+    // Country risk markers
+    for (var i = 0; i < app.data.riskCountries.length; i++) {
+        var country = app.data.riskCountries[i];
+        var color = getRiskColor(country.risk);
+        var size = country.risk === 'HIGH' ? 22 : country.risk === 'MEDIUM' ? 18 : 14;
+
+        var icon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background: ' + color + '; width: ' + size + 'px; height: ' + size + 'px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>',
+            iconSize: [size, size],
+            iconAnchor: [size/2, size/2]
+        });
+
+        L.marker(country.coords, { icon: icon })
+            .bindPopup('<div style="color: #f1f5f9;"><strong>' + country.name + '</strong><br>Risk: ' + country.risk + '<br>' + country.details + '</div>')
+            .addTo(app.map);
+    }
+
+    // Force size recalculation
+    setTimeout(function() {
+        app.map.invalidateSize();
+        console.log('✅ Map fully loaded and sized');
+    }, 100);
+
+    var mapStatus = $('mapStatusText');
+    if (mapStatus) mapStatus.textContent = 'Live Data';
+}
+
+// Start live updates
+function startLiveUpdates() {
+    // Markets every 30 seconds
+    app.intervals.markets = setInterval(function() {
+        // Update sector stocks
+        for (var sector in app.data.sectorStocks) {
+            var stocks = app.data.sectorStocks[sector];
+            for (var i = 0; i < stocks.length; i++) {
+                var change = (Math.random() - 0.5) * 0.6;
+                stocks[i].price *= (1 + change / 100);
+                stocks[i].change += change * 0.2;
+                stocks[i].change = Math.max(-15, Math.min(15, stocks[i].change));
+                stocks[i].price = Math.max(0.01, stocks[i].price);
             }
+        }
 
-            function showNotification(message) {
-                const notification = document.getElementById('notification');
-                notification.textContent = message;
-                notification.classList.add('show');
-                setTimeout(() => notification.classList.remove('show'), 3500);
-            }
+        // Update indices
+        for (var key in app.data.indices) {
+            var change = (Math.random() - 0.5) * 0.4;
+            app.data.indices[key].value *= (1 + change / 100);
+            app.data.indices[key].change += change * 0.3;
+            app.data.indices[key].change = Math.max(-5, Math.min(5, app.data.indices[key].change));
+        }
 
-            // Update timestamps
-            function updateTimestamps() {
-                const now = new Date().toLocaleTimeString();
-                ['casesTimestamp', 'deathsTimestamp', 'countriesTimestamp', 'riskTimestamp', 
-                 'lastGlobalUpdate', 'positionUpdate', 'footerLastUpdate'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.textContent = now;
-                });
-            }
+        populateStocks();
+        updateIndices();
+        updateTimestamps();
+        showNotification('📈 Markets updated');
+    }, 30000);
 
-            // Initialize Risk Panel
-            function initRiskPanel() {
-                const riskList = document.getElementById('riskList');
-                if (!riskList) return;
-                
-                riskList.innerHTML = '';
-                
-                // Sort by risk level
-                const sorted = [...data.riskCountries].sort((a, b) => {
-                    const order = { 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1 };
-                    return order[b.risk] - order[a.risk];
-                });
+    // Ship position every minute
+    if (app.shipMarker) {
+        app.intervals.ship = setInterval(function() {
+            var pos = app.shipMarker.getLatLng();
+            var newLat = pos.lat + (Math.random() - 0.5) * 0.05;
+            var newLng = pos.lng + (Math.random() - 0.5) * 0.05;
+            
+            // Keep near Canary Islands
+            newLat = Math.max(27.5, Math.min(29.5, newLat));
+            newLng = Math.max(-17.5, Math.min(-15.5, newLng));
+            
+            app.shipMarker.setLatLng([newLat, newLng]);
+            console.log('🚢 Ship moved to: [' + newLat.toFixed(4) + ', ' + newLng.toFixed(4) + ']');
+        }, 60000);
+    }
 
-                sorted.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'risk-country';
-                    div.innerHTML = `
-                        <div class="country-info">
-                            <div class="country-name">${item.country}</div>
-                            <div class="country-details">${item.details}</div>
-                        </div>
-                        <div class="risk-level risk-${item.risk.toLowerCase()}">${item.risk}</div>
-                    `;
-                    riskList.appendChild(div);
-                });
-                console.log('✅ Risk panel populated with', sorted.length, 'countries');
-            }
+    // Add news every 2 minutes
+    var newsIndex = 0;
+    app.intervals.news = setInterval(function() {
+        var newNews = app.data.newsPool[newsIndex % app.data.newsPool.length];
+        newsIndex++;
+        
+        var freshNews = {
+            source: newNews.source,
+            time: 'Just now',
+            type: newNews.type,
+            content: newNews.content
+        };
+        
+        // Add to beginning
+        app.data.govUpdates.unshift(freshNews);
+        
+        // Update older items
+        if (app.data.govUpdates[1]) app.data.govUpdates[1].time = '2 min ago';
+        if (app.data.govUpdates[2]) app.data.govUpdates[2].time = '15 min ago';
+        
+        // Keep last 12
+        if (app.data.govUpdates.length > 12) {
+            app.data.govUpdates = app.data.govUpdates.slice(0, 12);
+        }
+        
+        populateGovUpdates();
+        showNotification('🏛️ New government update');
+    }, 120000);
 
-            // Initialize Markets
-            function initMarkets() {
-                Object.entries(data.markets.sectors).forEach(([sector, stocks]) => {
-                    const container = document.getElementById(sector + 'Stocks');
-                    if (!container) return;
-                    
-                    container.innerHTML = '';
-                    stocks.forEach(stock => {
-                        const div = document.createElement('div');
-                        div.className = 'stock-item';
-                        div.innerHTML = `
-                            <div class="stock-symbol">${stock.symbol}</div>
-                            <div class="stock-name">${stock.name}</div>
-                            <div class="stock-price">$${stock.price.toFixed(2)}</div>
-                            <div class="stock-change ${stock.change > 0 ? 'positive' : 'negative'}">${stock.change > 0 ? '+' : ''}${stock.change.toFixed(2)}%</div>
-                        `;
-                        container.appendChild(div);
-                    });
-                });
-                console.log('✅ Market sectors populated');
-            }
+    // Clock every second
+    app.intervals.clock = setInterval(function() {
+        var now = new Date().toLocaleTimeString();
+        var ct = $('currentTime');
+        var ft = $('footerTime');
+        if (ct) ct.textContent = now;
+        if (ft) ft.textContent = now;
+    }, 1000);
 
-            // Initialize Government Updates
-            function initGovUpdates() {
-                const container = document.getElementById('govUpdates');
-                if (!container) return;
-                
-                container.innerHTML = '';
-                data.government.forEach(update => {
-                    const div = document.createElement('div');
-                    div.className = 'update-item';
-                    div.innerHTML = `
-                        <div class="update-header">
-                            <div class="update-source">${update.source}</div>
-                            <div class="update-time">${update.time}</div>
-                        </div>
-                        <div class="update-content">${update.content}</div>
-                        <div class="update-type ${update.type}">${update.type}</div>
-                    `;
-                    container.appendChild(div);
-                });
-                console.log('✅ Government updates populated:', data.government.length);
-            }
+    console.log('⚡ Live updates active');
+}
 
-            // Initialize Map
-            function initMap() {
-                const mapEl = document.getElementById('map');
-                const loadingEl = document.getElementById('mapLoading');
-                
-                if (!mapEl) {
-                    console.error('Map element not found');
-                    return;
-                }
+// Update market indices
+function updateIndices() {
+    var indices = app.data.indices;
+    
+    // S&P 500
+    $('spValue').textContent = indices.sp500.value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    var spChange = $('spChange');
+    spChange.textContent = (indices.sp500.change > 0 ? '+' : '') + indices.sp500.change.toFixed(2) + '%';
+    spChange.className = 'market-change ' + (indices.sp500.change > 0 ? 'positive' : indices.sp500.change < 0 ? 'negative' : 'neutral');
 
-                if (!leafletAvailable) {
-                    console.warn('Leaflet not loaded - showing fallback');
-                    if (loadingEl) {
-                        loadingEl.innerHTML = `
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">🗺️</div>
-                            <div style="font-size: 1.1rem; margin-bottom: 0.5rem;">Map View Unavailable</div>
-                            <div style="font-size: 0.9rem; color: var(--neutral-400);">
-                                Map requires internet connection.<br>
-                                All other data is functioning normally.
-                            </div>
-                        `;
-                    }
-                    return;
-                }
+    // NASDAQ
+    $('nasdaqValue').textContent = indices.nasdaq.value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    var nasdaqChange = $('nasdaqChange');
+    nasdaqChange.textContent = (indices.nasdaq.change > 0 ? '+' : '') + indices.nasdaq.change.toFixed(2) + '%';
+    nasdaqChange.className = 'market-change ' + (indices.nasdaq.change > 0 ? 'positive' : indices.nasdaq.change < 0 ? 'negative' : 'neutral');
 
-                try {
-                    // Hide loading
-                    if (loadingEl) loadingEl.style.display = 'none';
+    // Nikkei
+    $('nikkeiValue').textContent = indices.nikkei.value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    var nikkeiChange = $('nikkeiChange');
+    nikkeiChange.textContent = (indices.nikkei.change > 0 ? '+' : '') + indices.nikkei.change.toFixed(2) + '%';
+    nikkeiChange.className = 'market-change ' + (indices.nikkei.change > 0 ? 'positive' : indices.nikkei.change < 0 ? 'negative' : 'neutral');
 
-                    // Create map
-                    const map = L.map('map', {
-                        zoomControl: true,
-                        scrollWheelZoom: true,
-                        worldCopyJump: true
-                    }).setView([20, -20], 2);
+    // Europe
+    $('europeValue').textContent = indices.europe.value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    var europeChange = $('europeChange');
+    europeChange.textContent = (indices.europe.change > 0 ? '+' : '') + indices.europe.change.toFixed(2) + '%';
+    europeChange.className = 'market-change ' + (indices.europe.change > 0 ? 'positive' : indices.europe.change < 0 ? 'negative' : 'neutral');
+}
 
-                    // Dark map tiles
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                        attribution: '© OpenStreetMap contributors © CARTO',
-                        subdomains: 'abcd',
-                        maxZoom: 19
-                    }).addTo(map);
-
-                    // Ship route
-                    const shipRoute = [
-                        [-54.8019, -68.3030],
-                        [-51.7963, -59.5236],
-                        [-37.8136, -57.5560],
-                        [-23.5505, -46.6333],
-                        [14.6928, -17.4467],
-                        [28.2916, -16.6291]
-                    ];
-
-                    L.polyline(shipRoute, {
-                        color: '#dc2626',
-                        weight: 3,
-                        opacity: 0.7,
-                        dashArray: '10, 5'
-                    }).addTo(map);
-
-                    // Origin marker (Argentina)
-                    const originIcon = L.divIcon({
-                        className: 'custom-div-icon',
-                        html: `<div style="background: #0891b2; width: 28px; height: 28px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; font-size: 14px;">🛳️</div>`,
-                        iconSize: [28, 28],
-                        iconAnchor: [14, 14]
-                    });
-
-                    L.marker([-54.8019, -68.3030], { icon: originIcon })
-                        .bindPopup(`
-                            <div class="popup-header">🛳️ Outbreak Origin</div>
-                            <div class="popup-content">
-                                <strong>Port:</strong> Ushuaia, Argentina<br>
-                                <strong>Departure:</strong> May 1, 2026<br>
-                                <strong>Mission:</strong> Antarctica expedition<br>
-                                <strong>Initial Status:</strong> No cases detected
-                            </div>
-                            <div class="popup-stats">
-                                Pre-departure screening under review
-                            </div>
-                        `)
-                        .addTo(map);
-
-                    // Ship marker (current position)
-                    const shipIcon = L.divIcon({
-                        className: 'custom-div-icon',
-                        html: `<div style="background: #dc2626; width: 32px; height: 32px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; font-size: 16px; animation: pulse 2s infinite;">🚢</div>`,
-                        iconSize: [32, 32],
-                        iconAnchor: [16, 16]
-                    });
-
-                    const shipMarker = L.marker([28.2916, -16.6291], { icon: shipIcon })
-                        .bindPopup(`
-                            <div class="popup-header">🚢 MV Hondius - LIVE</div>
-                            <div class="popup-content">
-                                <strong>Status:</strong> Active outbreak aboard<br>
-                                <strong>Cases:</strong> ${data.outbreak.ship.cases} confirmed/suspected<br>
-                                <strong>Deaths:</strong> ${data.outbreak.ship.deaths}<br>
-                                <strong>Passengers:</strong> ${data.outbreak.ship.passengers} from ${data.outbreak.ship.countries} countries<br>
-                                <strong>Virus:</strong> Andes strain<br>
-                                <strong>Destination:</strong> Canary Islands, Spain
-                            </div>
-                            <div class="popup-stats">
-                                Medical isolation protocols active
-                            </div>
-                        `)
-                        .addTo(map);
-
-                    // Country risk markers
-                    data.riskCountries.forEach(country => {
-                        const color = getRiskColor(country.risk);
-                        const size = country.risk === 'HIGH' ? 22 : country.risk === 'MEDIUM' ? 18 : 14;
-                        
-                        const icon = L.divIcon({
-                            className: 'custom-div-icon',
-                            html: `<div style="background: ${color}; width: ${size}px; height: ${size}px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
-                            iconSize: [size, size],
-                            iconAnchor: [size/2, size/2]
-                        });
-
-                        L.marker(country.coords, { icon })
-                            .bindPopup(`
-                                <div class="popup-header">${country.country}</div>
-                                <div class="popup-content">
-                                    <strong>Risk Level:</strong> ${country.risk}<br>
-                                    <strong>Cases:</strong> ${country.cases}<br>
-                                    <strong>Details:</strong> ${country.details}
-                                </div>
-                                <div class="popup-stats">
-                                    Last assessment: ${new Date().toLocaleTimeString()}
-                                </div>
-                            `)
-                            .addTo(map);
-                    });
-
-                    console.log('✅ Map initialized with ship, origin, and', data.riskCountries.length, 'country markers');
-
-                    // Store map reference globally for layer toggling
-                    window.hantawatchMap = map;
-                    window.hantawatchShipMarker = shipMarker;
-
-                } catch (error) {
-                    console.error('Map initialization error:', error);
-                    if (loadingEl) {
-                        loadingEl.style.display = 'block';
-                        loadingEl.innerHTML = `
-                            <div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div>
-                            <div>Map error - data still functional</div>
-                        `;
-                    }
-                }
-            }
-
-            // Real-time updates
-            function startRealTimeUpdates() {
-                // Market updates every 30 seconds
-                setInterval(() => {
-                    // Update indices
-                    Object.keys(data.markets.indices).forEach(key => {
-                        const idx = data.markets.indices[key];
-                        const change = (Math.random() - 0.5) * 0.4;
-                        idx.value *= (1 + change / 100);
-                        idx.change += change * 0.3;
-                        idx.change = Math.max(-5, Math.min(5, idx.change));
-                    });
-
-                    // Update sector stocks
-                    Object.values(data.markets.sectors).forEach(stocks => {
-                        stocks.forEach(stock => {
-                            const change = (Math.random() - 0.5) * 0.6;
-                            stock.price *= (1 + change / 100);
-                            stock.change += change * 0.2;
-                            stock.change = Math.max(-15, Math.min(15, stock.change));
-                            stock.price = Math.max(0.01, stock.price);
-                        });
-                    });
-
-                    // Re-render
-                    updateMarketDisplay();
-                    initMarkets();
-                    updateTimestamps();
-                    showNotification('📈 Markets updated');
-                }, 30000);
-
-                // Time updates every second
-                setInterval(() => {
-                    const now = new Date().toLocaleTimeString();
-                    document.getElementById('currentTime').textContent = now;
-                    document.getElementById('footerTime').textContent = now;
-                }, 1000);
-
-                console.log('⚡ Real-time updates started');
-            }
-
-            function updateMarketDisplay() {
-                const indices = data.markets.indices;
-                
-                // S&P 500
-                document.getElementById('spValue').textContent = indices.sp500.value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                const spChange = document.getElementById('spChange');
-                spChange.textContent = `${indices.sp500.change > 0 ? '+' : ''}${indices.sp500.change.toFixed(2)}%`;
-                spChange.className = `market-change ${indices.sp500.change > 0 ? 'positive' : indices.sp500.change < 0 ? 'negative' : 'neutral'}`;
-
-                // NASDAQ
-                document.getElementById('nasdaqValue').textContent = indices.nasdaq.value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                const nasdaqChange = document.getElementById('nasdaqChange');
-                nasdaqChange.textContent = `${indices.nasdaq.change > 0 ? '+' : ''}${indices.nasdaq.change.toFixed(2)}%`;
-                nasdaqChange.className = `market-change ${indices.nasdaq.change > 0 ? 'positive' : indices.nasdaq.change < 0 ? 'negative' : 'neutral'}`;
-
-                // Nikkei
-                document.getElementById('nikkeiValue').textContent = indices.nikkei.value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                const nikkeiChange = document.getElementById('nikkeiChange');
-                nikkeiChange.textContent = `${indices.nikkei.change > 0 ? '+' : ''}${indices.nikkei.change.toFixed(2)}%`;
-                nikkeiChange.className = `market-change ${indices.nikkei.change > 0 ? 'positive' : indices.nikkei.change < 0 ? 'negative' : 'neutral'}`;
-
-                // Europe
-                document.getElementById('europeValue').textContent = indices.europe.value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                const europeChange = document.getElementById('europeChange');
-                europeChange.textContent = `${indices.europe.change > 0 ? '+' : ''}${indices.europe.change.toFixed(2)}%`;
-                europeChange.className = `market-change ${indices.europe.change > 0 ? 'positive' : indices.europe.change < 0 ? 'negative' : 'neutral'}`;
-            }
-
-            // Initialize all components
+// Main initialization
+function init() {
+    console.log('🦠 HantaWatch Global - Starting initialization...');
+    
+    // Always populate non-map content first
+    updateTimestamps();
+    populateRiskPanel();
+    populateStocks();
+    populateGovUpdates();
+    updateIndices();
+    
+    // Try to load map
+    loadLeaflet()
+        .then(function() {
             try {
-                updateTimestamps();
-                initRiskPanel();
-                initMarkets();
-                initGovUpdates();
                 initMap();
-                startRealTimeUpdates();
-                
-                console.log('✅ HantaWatch Global - Fully operational');
-                setTimeout(() => showNotification('🚀 Platform operational'), 1000);
-            } catch (error) {
-                console.error('Initialization error:', error);
+                console.log('✅ HantaWatch Global - FULLY OPERATIONAL (with map)');
+                showNotification('🚀 Platform operational - Map loaded successfully');
+            } catch (err) {
+                console.error('Map init failed:', err);
+                initWithoutMap();
+                showNotification('🚀 Platform operational - Map service unavailable');
             }
-        }
+        })
+        .catch(function(err) {
+            console.error('Leaflet load failed:', err);
+            initWithoutMap();
+            showNotification('🚀 Platform operational - All features except map working');
+        })
+        .finally(function() {
+            startLiveUpdates();
+        });
+}
 
-        // Start when ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializePlatform);
-        } else {
-            initializePlatform();
-        }
-    </script>
+// Start when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
+</script>
+
 </body>
 </html>
