@@ -298,6 +298,7 @@ body {
     padding: 0.5rem 1rem;
     border-radius: 8px;
     font-size: 0.95rem;
+    transition: all 0.3s ease;
 }
 
 .market-change.positive { background: var(--accent-green); color: #ffffff; }
@@ -311,6 +312,7 @@ body {
     font-family: var(--font-mono);
     color: var(--neutral-100);
     margin-bottom: 1rem;
+    transition: color 0.3s ease;
 }
 
 .market-details {
@@ -350,6 +352,7 @@ body {
     font-size: 0.8rem;
     min-width: 65px;
     text-align: center;
+    transition: all 0.3s ease;
 }
 
 .stock-change.positive { background: rgba(5, 150, 105, 0.2); color: #34d399; }
@@ -609,7 +612,7 @@ body {
                         <div class="market-detail"><span>Open:</span><strong id="spOpen">5,832.11</strong></div>
                         <div class="market-detail"><span>High:</span><strong id="spHigh">5,863.45</strong></div>
                         <div class="market-detail"><span>Low:</span><strong id="spLow">5,828.33</strong></div>
-                        <div class="market-detail"><span>Vol:</span><strong>3.2B</strong></div>
+                        <div class="market-detail"><span>Vol:</span><strong id="spVol">3.2B</strong></div>
                     </div>
                 </div>
             </div>
@@ -625,7 +628,7 @@ body {
                         <div class="market-detail"><span>Open:</span><strong id="nasdaqOpen">18,751.82</strong></div>
                         <div class="market-detail"><span>High:</span><strong id="nasdaqHigh">19,012.93</strong></div>
                         <div class="market-detail"><span>Low:</span><strong id="nasdaqLow">18,734.56</strong></div>
-                        <div class="market-detail"><span>Vol:</span><strong>4.8B</strong></div>
+                        <div class="market-detail"><span>Vol:</span><strong id="nasdaqVol">4.8B</strong></div>
                     </div>
                 </div>
             </div>
@@ -641,7 +644,7 @@ body {
                         <div class="market-detail"><span>Open:</span><strong id="nikkeiOpen">38,885.44</strong></div>
                         <div class="market-detail"><span>High:</span><strong id="nikkeiHigh">38,923.17</strong></div>
                         <div class="market-detail"><span>Low:</span><strong id="nikkeiLow">38,685.29</strong></div>
-                        <div class="market-detail"><span>Vol:</span><strong>1.1B</strong></div>
+                        <div class="market-detail"><span>Vol:</span><strong id="nikkeiVol">1.1B</strong></div>
                     </div>
                 </div>
             </div>
@@ -657,7 +660,7 @@ body {
                         <div class="market-detail"><span>Open:</span><strong id="europeOpen">521.25</strong></div>
                         <div class="market-detail"><span>High:</span><strong id="europeHigh">523.14</strong></div>
                         <div class="market-detail"><span>Low:</span><strong id="europeLow">520.88</strong></div>
-                        <div class="market-detail"><span>Vol:</span><strong>892M</strong></div>
+                        <div class="market-detail"><span>Vol:</span><strong id="europeVol">892M</strong></div>
                     </div>
                 </div>
             </div>
@@ -758,8 +761,8 @@ var app = {
             probable: 2,
             deaths: 3,
             countries: 23,
-            shipStatus: 'evacuated', // Ship is now evacuated at Tenerife
-            shipLocation: [28.0478, -16.5725], // Tenerife coordinates
+            shipStatus: 'evacuated',
+            shipLocation: [28.0478, -16.5725],
             lastUpdate: new Date()
         },
         riskCountries: [
@@ -817,13 +820,23 @@ var app = {
             { source: 'Deutsche Welle', type: 'health', content: 'German medical facilities receive patients via specialized air transport. Enhanced PPE protocols prevent healthcare worker exposure.' },
             { source: 'Sky News', type: 'emergency', content: 'British military completes Tristan da Cunha medical assessment. Remote island resident tests negative after precautionary evaluation.' }
         ],
+        // COMPLETE market indices with all tracked fields
         indices: {
-            sp500: { value: 5823.45, change: -0.42 },
-            nasdaq: { value: 18756.23, change: -1.2 },
-            nikkei: { value: 38598.77, change: -0.32 },
-            europe: { value: 519.23, change: -0.51 }
+            sp500: {
+                value: 5823.45, change: -0.42, open: 5847.23, high: 5856.12, low: 5812.87, volume: '3.4B'
+            },
+            nasdaq: {
+                value: 18756.23, change: -1.2, open: 18823.45, high: 18891.23, low: 18734.56, volume: '5.1B'
+            },
+            nikkei: {
+                value: 38598.77, change: -0.32, open: 38721.45, high: 38745.89, low: 38587.23, volume: '1.2B'
+            },
+            europe: {
+                value: 519.23, change: -0.51, open: 521.78, high: 523.45, low: 518.67, volume: '924M'
+            }
         },
-        newsIndex: 0
+        newsIndex: 0,
+        updateCounter: 0
     }
 };
 
@@ -864,11 +877,17 @@ function animateStatCard(cardId) {
     }
 }
 
+function formatVolume(value) {
+    if (value >= 1000000000) return (value / 1000000000).toFixed(1) + 'B';
+    if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
+    if (value >= 1000) return (value / 1000).toFixed(1) + 'K';
+    return value.toString();
+}
+
 // Update case numbers with realistic progression
 function simulateCaseUpdates() {
-    // Small chance of new case detection (realistic disease progression)
-    if (Math.random() < 0.03) { // 3% chance every 2 minutes = ~1 new case per hour
-        if (app.data.outbreak.totalCases < 15) { // Cap at realistic number
+    if (Math.random() < 0.03) { // 3% chance every 2 minutes
+        if (app.data.outbreak.totalCases < 15) {
             app.data.outbreak.totalCases++;
             if (Math.random() < 0.7) {
                 app.data.outbreak.confirmed++;
@@ -876,14 +895,15 @@ function simulateCaseUpdates() {
                 app.data.outbreak.probable++;
             }
             
-            // Update displays
-            $('activeCases').textContent = app.data.outbreak.totalCases;
-            $('casesBreakdown').textContent = app.data.outbreak.confirmed + ' confirmed + ' + app.data.outbreak.probable + ' probable';
-            $('alertCases').textContent = app.data.outbreak.totalCases;
-            $('statusCases').textContent = app.data.outbreak.totalCases;
-            $('footerCases').textContent = app.data.outbreak.totalCases;
+            // Update all displays
+            var elements = ['activeCases', 'alertCases', 'statusCases', 'footerCases'];
+            for (var i = 0; i < elements.length; i++) {
+                var el = $(elements[i]);
+                if (el) el.textContent = app.data.outbreak.totalCases;
+            }
             
-            // Update fatality rate
+            $('casesBreakdown').textContent = app.data.outbreak.confirmed + ' confirmed + ' + app.data.outbreak.probable + ' probable';
+            
             var fatalityRate = ((app.data.outbreak.deaths / app.data.outbreak.totalCases) * 100).toFixed(1);
             $('fatalityRate').textContent = fatalityRate + '% fatality rate';
             
@@ -942,8 +962,18 @@ function populateStocks() {
             html += '</div>';
         }
         container.innerHTML = html;
+
+        // Update sector header change
+        var sectorChangeEl = $(sector + 'SectorChange');
+        if (sectorChangeEl) {
+            var avgChange = stocks.reduce(function(sum, stock) { return sum + stock.change; }, 0) / stocks.length;
+            var changeClass = avgChange > 0 ? 'positive' : 'negative';
+            var changeSign = avgChange > 0 ? '+' : '';
+            sectorChangeEl.textContent = changeSign + avgChange.toFixed(1) + '%';
+            sectorChangeEl.className = 'market-change ' + changeClass;
+        }
     }
-    console.log('✅ Stocks populated');
+    console.log('✅ Stocks populated with sector averages');
 }
 
 // Populate government updates with latest news
@@ -1010,14 +1040,12 @@ function initMap() {
     var placeholder = $('mapPlaceholder');
     if (placeholder) placeholder.style.display = 'none';
 
-    // Create map centered on Atlantic
     app.map = L.map('map', {
         center: [20, -20],
         zoom: 2,
         worldCopyJump: true
     });
 
-    // Dark theme tiles
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '© OpenStreetMap © CARTO',
         subdomains: 'abcd',
@@ -1029,7 +1057,7 @@ function initMap() {
         [-54.8019, -68.3030], // Ushuaia, Argentina
         [-15.9254, -5.7089], // St Helena
         [16.2667, -24.3], // Cape Verde
-        [28.0478, -16.5725] // Tenerife (current/final)
+        [28.0478, -16.5725] // Tenerife (final)
     ];
 
     L.polyline(shipRoute, {
@@ -1039,7 +1067,7 @@ function initMap() {
         dashArray: '10, 5'
     }).addTo(app.map);
 
-    // Origin marker (Argentina)
+    // Origin marker
     var originIcon = L.divIcon({
         className: 'custom-marker',
         html: '<div style="background: #0891b2; width: 28px; height: 28px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; font-size: 14px;">🛳️</div>',
@@ -1050,7 +1078,7 @@ function initMap() {
         .bindPopup('<div style="color: #f1f5f9;"><strong>🛳️ Outbreak Origin</strong><br>Port: Ushuaia, Argentina<br>Departure: April 1, 2026<br>Status: Investigation ongoing</div>')
         .addTo(app.map);
 
-    // Ship marker (current position at Tenerife - EVACUATED)
+    // Ship marker at Tenerife - EVACUATED
     var shipIcon = L.divIcon({
         className: 'custom-marker',
         html: '<div style="background: #ea580c; width: 36px; height: 36px; border-radius: 50%; border: 3px solid white; box-shadow: 0 6px 12px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; font-size: 18px;">🏥</div>',
@@ -1088,50 +1116,96 @@ function initMap() {
     if (mapStatus) mapStatus.textContent = 'Ship Evacuated - Tracking Quarantine';
 }
 
-// Update market indices
+// Update market indices with COMPLETE data
 function updateMarketIndices() {
     var indices = app.data.indices;
     
-    // Update each index
-    Object.keys(indices).forEach(function(key) {
-        var prefix = key === 'sp500' ? 'sp' : key === 'nasdaq' ? 'nasdaq' : key === 'nikkei' ? 'nikkei' : 'europe';
-        
-        $(prefix + 'Value').textContent = indices[key].value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    var markets = [
+        { key: 'sp500', prefix: 'sp' },
+        { key: 'nasdaq', prefix: 'nasdaq' },
+        { key: 'nikkei', prefix: 'nikkei' },
+        { key: 'europe', prefix: 'europe' }
+    ];
+
+    for (var i = 0; i < markets.length; i++) {
+        var market = markets[i];
+        var data = indices[market.key];
+        var prefix = market.prefix;
+
+        // Update main value
+        var valueEl = $(prefix + 'Value');
+        if (valueEl) valueEl.textContent = data.value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+        // Update percentage change
         var changeEl = $(prefix + 'Change');
-        changeEl.textContent = (indices[key].change > 0 ? '+' : '') + indices[key].change.toFixed(2) + '%';
-        changeEl.className = 'market-change ' + (indices[key].change > 0 ? 'positive' : indices[key].change < 0 ? 'negative' : 'neutral');
-    });
+        if (changeEl) {
+            changeEl.textContent = (data.change > 0 ? '+' : '') + data.change.toFixed(2) + '%';
+            changeEl.className = 'market-change ' + (data.change > 0 ? 'positive' : data.change < 0 ? 'negative' : 'neutral');
+        }
+
+        // Update ALL market details
+        var openEl = $(prefix + 'Open');
+        var highEl = $(prefix + 'High');
+        var lowEl = $(prefix + 'Low');
+        var volEl = $(prefix + 'Vol');
+
+        if (openEl) openEl.textContent = data.open.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        if (highEl) highEl.textContent = data.high.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        if (lowEl) lowEl.textContent = data.low.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        if (volEl) volEl.textContent = data.volume;
+    }
+
+    console.log('✅ All market indices updated with complete data');
 }
 
 // Start all real-time updates
 function startLiveUpdates() {
     // Market updates every 30 seconds
     app.intervals.markets = setInterval(function() {
-        // Update sector stocks with more volatility due to outbreak
+        app.data.updateCounter++;
+        
+        // Update sector stocks with outbreak-influenced volatility
         for (var sector in app.data.sectorStocks) {
             var stocks = app.data.sectorStocks[sector];
             for (var i = 0; i < stocks.length; i++) {
-                var volatility = sector === 'cruise' ? 1.2 : sector === 'healthcare' ? 0.8 : 1.0;
-                var change = (Math.random() - 0.5) * 0.8 * volatility;
+                var volatility = sector === 'cruise' ? 1.5 : sector === 'healthcare' ? 0.7 : 1.0;
+                var change = (Math.random() - 0.5) * 1.0 * volatility;
                 stocks[i].price *= (1 + change / 100);
                 stocks[i].change += change * 0.3;
-                stocks[i].change = Math.max(-20, Math.min(20, stocks[i].change));
+                stocks[i].change = Math.max(-25, Math.min(25, stocks[i].change));
                 stocks[i].price = Math.max(0.01, stocks[i].price);
             }
         }
 
-        // Update indices
+        // Update ALL major indices data
         for (var key in app.data.indices) {
-            var change = (Math.random() - 0.5) * 0.6;
-            app.data.indices[key].value *= (1 + change / 100);
-            app.data.indices[key].change += change * 0.2;
-            app.data.indices[key].change = Math.max(-8, Math.min(8, app.data.indices[key].change));
+            var index = app.data.indices[key];
+            var change = (Math.random() - 0.5) * 0.8;
+            
+            // Update current value
+            index.value *= (1 + change / 100);
+            index.change += change * 0.2;
+            index.change = Math.max(-10, Math.min(10, index.change));
+            
+            // Update high/low based on current value
+            if (index.value > index.high) index.high = index.value;
+            if (index.value < index.low) index.low = index.value;
+            
+            // Vary open slightly
+            index.open *= (1 + (Math.random() - 0.5) * 0.02);
+            
+            // Update volume
+            var baseVol = parseFloat(index.volume);
+            var volUnit = index.volume.slice(-1);
+            baseVol *= (1 + (Math.random() - 0.5) * 0.1);
+            index.volume = baseVol.toFixed(1) + volUnit;
         }
 
         populateStocks();
         updateMarketIndices();
         updateTimestamps();
-        showNotification('📈 Markets updated');
+        showNotification('📈 Markets updated (#' + app.data.updateCounter + ')');
+        console.log('📈 Market update #' + app.data.updateCounter + ' - All data refreshed');
     }, 30000);
 
     // Case progression every 2 minutes
@@ -1151,7 +1225,7 @@ function startLiveUpdates() {
             content: newNews.content
         };
         
-        // Age existing news
+        // Age existing news properly
         for (var i = 0; i < app.data.govUpdates.length; i++) {
             var update = app.data.govUpdates[i];
             if (update.time === 'Just now') update.time = '3 min ago';
@@ -1162,13 +1236,12 @@ function startLiveUpdates() {
         
         app.data.govUpdates.unshift(freshNews);
         
-        // Keep last 12 updates
         if (app.data.govUpdates.length > 12) {
             app.data.govUpdates = app.data.govUpdates.slice(0, 12);
         }
         
         populateGovUpdates();
-        showNotification('🏛️ New official update');
+        showNotification('🏛️ New official update from ' + newNews.source);
     }, 180000);
 
     // Clock every second
@@ -1180,7 +1253,11 @@ function startLiveUpdates() {
         if (ft) ft.textContent = now;
     }, 1000);
 
-    console.log('⚡ All live updates active');
+    console.log('⚡ All live updates active:');
+    console.log('   📈 Markets: every 30 seconds (complete data)');
+    console.log('   🚨 Cases: every 2 minutes (3% chance)');
+    console.log('   🏛️ News: every 3 minutes');
+    console.log('   ⏰ Clock: every second');
 }
 
 // Initialize without map fallback
@@ -1203,12 +1280,12 @@ function initWithoutMap() {
 function init() {
     console.log('🦠 HantaWatch Global - Initializing with current outbreak data...');
     
-    // Initialize UI components
+    // Initialize all UI components
     updateTimestamps();
     populateRiskPanel();
     populateStocks();
     populateGovUpdates();
-    updateMarketIndices();
+    updateMarketIndices(); // This now updates EVERYTHING
     
     // Try to load map
     loadLeaflet()
